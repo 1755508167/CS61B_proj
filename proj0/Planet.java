@@ -64,7 +64,7 @@ public class Planet {
 	public double calcForceExertedByX(Planet p){
 		double fx;
 		double f=this.calcForceExertedBy(p);
-		double dx=Math.abs(this.xxPos-p.xxPos);
+		double dx=p.xxPos-this.xxPos;//dx有方向
 		double r=this.calcDistance(p);
 		//System.out.println(r);
 		if (r == 0.0){
@@ -81,7 +81,7 @@ public class Planet {
 	public double calcForceExertedByY(Planet p){
 		double fy;
 		double f=this.calcForceExertedBy(p);
-		double dy=Math.abs(this.yyPos-p.yyPos);
+		double dy=p.yyPos-this.yyPos;
 		double r=this.calcDistance(p);
 		
 		if (r == 0.0){
