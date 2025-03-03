@@ -55,16 +55,25 @@ public class NBody{
 		StdDraw.enableDoubleBuffering();
 
 		while(time < T){
+			Double[] xForces = new Double[planets.length];
+			Double[] yForces = new Double[planets.length];
+			for(int i=0;i < planets.length;i++){
+				xForces[i]=planets[i].calcNetForceExertedByX(planets);
+				yForces[i]=planets[i].calcNetForceExertedByY(planets);
+			}
+			
+			for(int i=0;i< planets.length;i++){
+				//更新行星数据
+				planets[i].update(dt,xForces[i],yForces[i]);
+				//System.out.println("已更新");
+				//绘制图像
+				
+			}
 			StdDraw.setScale(-100,100);//从原点开始往x正半轴绘制100个单位，x负半轴也是100个三位，y轴正负轴也是100个单位
 			StdDraw.clear();
 			StdDraw.picture(0,0,imageToDraw);//绘制背景图像
 			for(Planet p : planets){
-				//更新行星数据
-				p.update(dt,p.calcNetForceExertedByX(planets),p.calcNetForceExertedByY(planets));
-				System.out.println("已更新");
-				//绘制图像
 				p.draw(radius);
-				
 			}
 			StdDraw.show();
 			StdDraw.pause(waitTimeMilliseconds);
