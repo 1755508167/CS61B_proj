@@ -1,0 +1,76 @@
+public class NBody{
+	//从文件中阅读宇宙半径
+	public static double readRadius(String filename){
+		In in = new In(filename);
+		int p_num=in.readInt();
+		double radius=in.readDouble();//宇宙半径
+		return radius;
+	}
+	//从文件中阅读行星的数据，返回一个行星数组
+	public static Planet[] readPlanets(String filename){
+		In in=new In(filename);
+		int p_num=in.readInt();
+		double radius=in.readDouble();
+		
+		Planet[] result=new Planet[p_num];
+		
+		double xxPos;
+		double yyPos;
+		double xVel;
+		double yVel;
+		double mass;
+		String imgname;
+		
+		
+		for(int i=0;i<p_num;i++){
+			xxPos=in.readDouble();
+			yyPos=in.readDouble();
+			xVel=in.readDouble();
+			yVel=in.readDouble();
+			mass=in.readDouble();
+			imgname=in.readString();
+
+			result[i]=new Planet(xxPos, yyPos, xVel, yVel, mass, imgname);
+		}
+		return result;
+
+	}
+	
+	public static void main(String[] args){
+		double T=Double.parseDouble(args[0]);
+		double dt=Double.parseDouble(args[1]);//一次增加的时间
+		int waitTimeMilliseconds = 10;
+		String filename=args[2];
+		//读取宇宙半径
+		double radius=readRadius(filename);
+		String imageToDraw="images/starfield.jpg";
+		//行星列表
+		Planet[] planets=readPlanets(filename);
+		
+		double time=0;//创建一个时间变量
+		
+		
+		//double fx=planets[1].calcNetForceExertedByX(planets);
+		//double fy=planets[1].calcNetForceExertedByY(planets);
+		StdDraw.enableDoubleBuffering();
+
+		while(time < T){
+			StdDraw.setScale(-100,100);//从原点开始往x正半轴绘制100个单位，x负半轴也是100个三位，y轴正负轴也是100个单位
+			StdDraw.clear();
+			StdDraw.picture(0,0,imageToDraw);//绘制背景图像
+			for(Planet p : planets){
+				//更新行星数据
+				p.update(dt,p.calcNetForceExertedByX(planets),p.calcNetForceExertedByY(planets));
+				System.out.println("已更新");
+				//绘制图像
+				p.draw(radius);
+				
+			}
+			StdDraw.show();
+			StdDraw.pause(waitTimeMilliseconds);
+			time=time+dt;
+			
+		}
+		
+	}
+}
