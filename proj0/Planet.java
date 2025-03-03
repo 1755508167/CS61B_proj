@@ -1,19 +1,19 @@
 public class Planet {
-    double xxPos;//current x position
-    double yyPos;//current y position
-    double xxVel;//current velocity(速度) in the x direction
-    double yyVel;//current velocity(速度) in the y direction
-    double mass;//质量
-    String imgFileName;//行星的图片文件名
+    public double xxPos;//current x position
+    public double yyPos;//current y position
+    public double xxVel;//current velocity(速度) in the x direction
+    public double yyVel;//current velocity(速度) in the y direction
+    public double mass;//质量
+    public String imgFileName;//行星的图片文件名
 
     //第一个构造函数
     public Planet(double xP, double yP, double xV, double yV, double m, String img){
-        xxPos=xP;
-        yyPos=yP;
-        xxVel=xV;
-        yyVel=yV;
-        mass=m;
-        imgFileName=img;
+        this.xxPos=xP;
+        this.yyPos=yP;
+        this.xxVel=xV;
+        this.yyVel=yV;
+        this.mass=m;
+        this.imgFileName=img;
     }
     //第二个构造函数
     public Planet(Planet p){
@@ -25,7 +25,7 @@ public class Planet {
         this.imgFileName = p.imgFileName;
     }
 	//判断两个行星是否相同
-	public boolean equals(Planet p){
+	/*	public boolean equals(Planet p){
 		boolean result;
 		if (this.xxPos==p.xxPos && this.yyPos == p.yyPos && this.xxVel == p.xxVel && this.yyVel == p.yyVel && this.mass == p.mass && this.imgFileName == p.imgFileName)
 		{
@@ -36,7 +36,8 @@ public class Planet {
 		}
 		return result;
 		
-	}
+	}*/
+
 	//计算两个行星之间的距离
 	public double calcDistance(Planet p){
 		double r;
@@ -113,7 +114,7 @@ public class Planet {
 		}
 		return result;
 	}
-	//计算加速度，更新位置，接收时间，fx,fy  dt是作用时间
+	//计算加速度，更新位置，接收时间，fx,fy
 	public void update(double dt,double fx,double fy){
 		double accelx;//x方向的加速度
 		double accely;//y方向的加速度
