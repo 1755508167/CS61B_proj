@@ -132,16 +132,8 @@ public class Planet {
 		this.yyPos=this.yyPos+dt*this.yyVel;
 	}
 	//在星球的位置绘制星球
-	public void draw(double radius){
-		StdDraw.picture((this.xxPos/radius)*100.0,(this.yyPos/radius)*100.0,"images/"+this.imgFileName);
+	public void draw(){
+		StdDraw.picture(this.xxPos,this.yyPos,"images/"+this.imgFileName);
 	}
-    public static void main(String[] args){
-        Planet p1 = new Planet(1.0, 1.0, 3.0, 4.0, 5.0, "jupiter.gif");
-        Planet p2 = new Planet(2.0, 1.0, 3.0, 4.0, 4e11, "jupiter.gif");
-        Planet p3 = new Planet(4.0, 5.0, 3.0, 4.0, 5.0, "jupiter.gif");
-		Planet p4 = new Planet(3.0, 2.0, 3.0, 4.0, 5.0, "jupiter.gif");
-		Planet[] allPlanets = {p2,p3,p4};
-		p1.update(2.0, 1.0, -0.5);
-		System.out.println(p1.xxPos);
-    }
+    
 }

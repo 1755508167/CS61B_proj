@@ -69,11 +69,11 @@ public class NBody{
 				//绘制图像
 				
 			}
-			StdDraw.setScale(-100,100);//从原点开始往x正半轴绘制100个单位，x负半轴也是100个三位，y轴正负轴也是100个单位
+			StdDraw.setScale(-radius,radius);//从原点开始往x正半轴绘制100个单位，x负半轴也是100个三位，y轴正负轴也是100个单位
 			StdDraw.clear();
 			StdDraw.picture(0,0,imageToDraw);//绘制背景图像
 			for(Planet p : planets){
-				p.draw(radius);
+				p.draw();
 			}
 			StdDraw.show();
 			StdDraw.pause(waitTimeMilliseconds);
