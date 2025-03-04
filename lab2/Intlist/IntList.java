@@ -79,35 +79,62 @@ public class IntList {
      * Returns a list consisting of the elements of A followed by the
      * *  elements of B.  May modify items of A. Don't use 'new'.
      */
-
+    //把B接到A后面，改变A的值
     public static IntList dcatenate(IntList A, IntList B) {
         //TODO:  fill in method
-        return null;
+        IntList result;
+        if(A==null){
+            return B;
+        }
+        else if(B==null){
+            return A;
+        }
+        else {
+            IntList current = A;
+            while (current.rest != null) {
+                current = current.rest;
+            }
+            current.rest = B;
+            return A;
+        }
+
     }
 
     /**
      * Returns a list consisting of the elements of A followed by the
      * * elements of B.  May NOT modify items of A.  Use 'new'.
      */
+    //把B接到A后面，不改变A的值
     public static IntList catenate(IntList A, IntList B) {
         //TODO:  fill in method
-        return null;
+        if(A==null){
+            return B;
+        }
+        else if(B==null){
+            return A;
+        }
+        else {
+            IntList result=new IntList(A.first,null);
+            IntList current=result;//把result的地址复制给current
+
+            A=A.rest;
+            //复制A
+            while (A !=null){
+                current.rest=new IntList(A.first,null);
+                current=current.rest;
+                A=A.rest;
+            }
+
+            //复制B
+            while (B != null){
+                current.rest=new IntList(B.first,null);
+                current=current.rest;
+                B=B.rest;
+            }
+            return result;
+        }
+
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /**
      * DO NOT MODIFY ANYTHING BELOW THIS LINE! Many of the concepts below here
