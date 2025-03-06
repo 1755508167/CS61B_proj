@@ -112,11 +112,20 @@ public class DLList<T> {
     }
     //打印链表
     public void printList(){
-        Node current=sentinel.next;
-
-        for(int i=0;i<size;i++){
-            System.out.println(current.item);
-            current=current.next;
+        if(isEmpty()){
+            System.out.println();//如果为空，直接打印换行
         }
+        else {
+            Node current=sentinel.next;
+            for(int i=0;i<size;i++){
+                System.out.print(current.item);
+                current=current.next;
+
+                if(i<size-1){
+                    System.out.print(" ");//输出空格
+                }
+            }
+        }
+
     }
 }
