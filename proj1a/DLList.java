@@ -97,8 +97,8 @@ public class DLList<T> {
             return null;
         }
         Node lastNode = sentinel.prev;
-        sentinel.prev = lastNode.prev;//把sentinel的prev指向倒数第二个节点
-        lastNode.prev.next = sentinel;//把倒数第二个节点指向sentinel
+        sentinel.prev = lastNode.prev; //把sentinel的prev指向倒数第二个节点
+        lastNode.prev.next = sentinel; //把倒数第二个节点指向sentinel
         size = size - 1;
         return lastNode.item;
     }
