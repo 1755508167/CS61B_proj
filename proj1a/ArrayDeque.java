@@ -71,7 +71,7 @@ public class ArrayDeque<T> {
             //throw new IndexOutOfBoundsException("Index out of bounds: " + i);
             return null;
         }
-        int actualIndex = (first + i + capacity) % capacity;//获取第i个元素的实际索引
+        int actualIndex = (first + i + 1 + capacity) % capacity;//获取第i个元素的实际索引
         T element = data[actualIndex];
         return element;
     }

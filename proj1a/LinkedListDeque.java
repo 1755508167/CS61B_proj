@@ -8,48 +8,56 @@ public class LinkedListDeque<T> {
      */
     private int size;
     private DLList<T> l;
+
     //创建一个空的链表双端队列
     public LinkedListDeque() {
-        l=new DLList<>();
+        l = new DLList<>();
     }
+
     //添加一个元素到最前端
     public void addFirst(T item) {
         l.addFirst(item);
     }
+
     //添加一个元素到队列的最末尾
     public void addLast(T item) {
         l.addLast(item);
     }
+
     //返回 deque 是否为空，为空则返回 true，否则返回 false。
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return l.isEmpty();
     }
 
     //返回这个双端队列的元素数量
     //size必须是常数时间
-    public int size(){
+    public int size() {
         return l.size();
     }
 
     //从第一个到最后一个打印 deque 中的项目，项目之间用空格分隔。
-    public void printDeque(){
+    public void printDeque() {
         l.printList();
     }
+
     //移除并返回双端队列前端的项。如果不存在此类项，则返回 null
-    public T removeFirst(){
+    public T removeFirst() {
         return l.removeFirst();
     }
+
     //移除并返回双端队列末尾的元素。如果不存在此类元素，则返回 null。
-    public T removeLast(){
+    public T removeLast() {
         return l.removeLast();
     }
+
     //获取给定索引处的项目，其中 0 是头部，1 是下一个项目，依此类推。如果不存在此类项目，则返回 null。不得修改双端队列！
     //get方法必须使用迭代
-    public T get(int index){
+    public T get(int index) {
         return l.get(index);
     }
+
     //与get方法一样的功能，但是使用递归实现
-    public T getRecursive(int index){
+    public T getRecursive(int index) {
         return l.getRecursive(index);
     }
 }
