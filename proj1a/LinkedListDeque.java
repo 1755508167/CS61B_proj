@@ -9,15 +9,15 @@ public class LinkedListDeque<T> {
     private int size;
     private DLList<T> l;
     //创建一个空的链表双端队列
-    public LinkedListDeque(){
-         l=new DLList<>();
+    public LinkedListDeque() {
+        l=new DLList<>();
     }
     //添加一个元素到最前端
-    public void addFirst(T item){
+    public void addFirst(T item) {
         l.addFirst(item);
     }
     //添加一个元素到队列的最末尾
-    public void addLast(T item){
+    public void addLast(T item) {
         l.addLast(item);
     }
     //返回 deque 是否为空，为空则返回 true，否则返回 false。

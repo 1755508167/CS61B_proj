@@ -1,17 +1,17 @@
 public class ArrayDeque<T> {
     //使用数组作为核心数据结构，利用循环数组实现
     //get和size方法必须在常数时间内完成
-    private int size;//已有的元素数量
+    private int size; //已有的元素数量
     private T[] data;
-    private int first;//指向第一个元素，插入第一个元素直接使用这个索引
-    private int last;//指向最后一个元素
-    private int capacity=8;//初始化的容量为8
-    private double usage;//使用率，不得低于25%
+    private int first; //指向第一个元素，插入第一个元素直接使用这个索引
+    private int last; //指向最后一个元素
+    private int capacity=8; //初始化的容量为8
+    private double usage; //使用率，不得低于25%
     //构造函数，创建一个空的ArrayList
     public ArrayDeque(){
         //this.capacity=capacity;
         this.data=(T []) new Object[this.capacity];
-        this.first=0;//索引为-1，这样插入第一个元素的时候index为0
+        this.first=0;  //索引为-1，这样插入第一个元素的时候index为0
         this.last=1;
         this.size=0;
     }
@@ -19,11 +19,11 @@ public class ArrayDeque<T> {
     public void addFirst(T item){
         if(size >= capacity){
             System.out.println("Deque is full.Then I will enlarge the capacity.");
-            resize();//扩大队列的容量
+            resize();  //扩大队列的容量
         }
         else {
             data[first]=item;
-            first=(first -1 +capacity)%capacity;//把first向前移动一位，同时保证first在[0,capacity-1]范围内
+            first=(first -1 +capacity)%capacity; //把first向前移动一位，同时保证first在[0,capacity-1]范围内
         }
         size++;
     }
@@ -43,8 +43,8 @@ public class ArrayDeque<T> {
             System.out.println("Deque is null");
             throw new IllegalStateException("Queue is empty");
         }
-        first=(first+1+capacity)%capacity;//first往后移
-        T element=data[first];//获取第一个元素
+        first=(first+1+capacity)%capacity;  //first往后移
+        T element=data[first];  //获取第一个元素
         data[first]=null;
         size--;
         return element;
@@ -56,7 +56,7 @@ public class ArrayDeque<T> {
         }
         last=(last-1+capacity)%capacity;
         T element=data[last];
-        data[last]=null;//把最后一个元素设置为null
+        data[last]=null;  //把最后一个元素设置为null
         size--;
         return element;
     }
