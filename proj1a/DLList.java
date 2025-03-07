@@ -95,6 +95,9 @@ public class DLList<T> {
 
     //删除第一个节点的元素，并返回值
     public T removeFirst(){
+        if(sentinel.prev==sentinel){
+            return null;
+        }
         Node firstNode=sentinel.next;//这是第一个节点
         firstNode.next.prev=sentinel;//第二个节点指向sentinel
         sentinel.next=firstNode.next;//第二个节点变成第一个节点
@@ -103,12 +106,7 @@ public class DLList<T> {
     }
     //判断这个链表是否为空
     public boolean isEmpty(){
-        if(size==0){
-            return true;
-        }
-        else {
-            return false;
-        }
+        return size==0;
     }
     //打印链表
     public void printList(){
