@@ -20,24 +20,23 @@ public class ArrayDeque<T> {
     //在首端添加一个元素
     public void addFirst(T item) {
         if (size >= capacity) {
-            System.out.println("Deque is full.Then I will enlarge the capacity.");
-            resize(capacity*2);  //扩大队列的容量
-        } else {
-            //先把指针往前移，再插入元素
-            first = (first - 1 + capacity) % capacity; //把first向前移动一位，同时保证first在[0,capacity-1]范围内
-            data[first] = item;
+            //System.out.println("Deque is full.Then I will enlarge the capacity.");
+            resize(capacity * 2);  //扩大队列的容量
         }
+        //先把指针往前移，再插入元素
+        first = (first - 1 + capacity ) % capacity; //把first向前移动一位，同时保证first在[0,capacity-1]范围内
+        data[first] = item;
         size++;
     }
 
     //在末端添加一个元素
     public void addLast(T item) {
         if (size >= capacity) {
-            System.out.println("Deque is full.Then I will enlarge the capacity.");
+            //System.out.println("Deque is full.Then I will enlarge the capacity.");
             resize(capacity * 2);
         }
         data[last] = item; //先插入元素
-        last = (last + 1 + capacity) % capacity;
+        last = (last + 1 +capacity) % capacity;
         size++;
     }
 
@@ -70,7 +69,7 @@ public class ArrayDeque<T> {
         if (i < 0 || i >= size) {
             return null;
         }
-        int actualIndex = (first + i + capacity) % capacity; //获取第i个元素的实际索引
+        int actualIndex = (first + i +capacity) % capacity; //获取第i个元素的实际索引
         T element = data[actualIndex];
         return element;
     }
@@ -86,7 +85,6 @@ public class ArrayDeque<T> {
     }
 
     //扩大队列的容量
-
     private void resize(int newcapacity) {
         //capacity=capacity*2;
         T[] newdata = (T[]) new Object[newcapacity];
