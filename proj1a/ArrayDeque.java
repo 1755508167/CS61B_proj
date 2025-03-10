@@ -34,10 +34,10 @@ public class ArrayDeque<T> {
     public void addLast(T item) {
         if (size >= capacity) {
             System.out.println("Deque is full.Then I will enlarge the capacity.");
-            resize(capacity*2);
+            resize(capacity * 2);
         }
         data[last] = item; //先插入元素
-        last = (last + 1 +capacity) % capacity;
+        last = (last + 1 + capacity) % capacity;
         size++;
     }
 
@@ -68,10 +68,9 @@ public class ArrayDeque<T> {
     //获取第i个元素
     public T get(int i) {
         if (i < 0 || i >= size) {
-            //throw new IndexOutOfBoundsException("Index out of bounds: " + i);
             return null;
         }
-        int actualIndex = (first + i  + capacity) % capacity; //获取第i个元素的实际索引
+        int actualIndex = (first + i -1 + capacity) % capacity; //获取第i个元素的实际索引
         T element = data[actualIndex];
         return element;
     }
@@ -88,18 +87,18 @@ public class ArrayDeque<T> {
 
     //扩大队列的容量
 
-    private void resize(int newcapacity){
+    private void resize(int newcapacity) {
         //capacity=capacity*2;
-        T[] newdata=(T[]) new Object[newcapacity];
+        T[] newdata = (T[]) new Object[newcapacity];
         for (int i = 0; i < size; i++) {
-            int oldindex=((first+i)%capacity);
-            newdata[i]=data[oldindex];
+            int oldindex = ((first + i) % capacity);
+            newdata[i] = data[oldindex];
         }
         //System.arraycopy(data,0,a,0, data.length);
-        data=newdata;
-        first=0;
-        last=size;
-        capacity=newcapacity;
+        data = newdata;
+        first = 0;
+        last = size;
+        capacity = newcapacity;
     }
 
     //打印队列
