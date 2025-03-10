@@ -50,7 +50,8 @@ public class DLList<T> {
 
     //添加一个元素到链表的末端
     public void addLast(T x) {
-        Node newNode = new Node(sentinel.prev, x, sentinel);  //环形链表没有设置last指针，sentinel.prev就是指向最后一个节点
+        //环形链表没有设置last指针，sentinel.prev就是指向最后一个节点
+        Node newNode = new Node(sentinel.prev, x, sentinel);
         sentinel.prev.next = newNode;  //把之前的最后一个节点指向newNode
         sentinel.prev = newNode;  //把prev指针更新到最后一个节点上
         size = size + 1;
@@ -97,8 +98,10 @@ public class DLList<T> {
             return null;
         }
         Node lastNode = sentinel.prev;
-        sentinel.prev = lastNode.prev; //把sentinel的prev指向倒数第二个节点
-        lastNode.prev.next = sentinel; //把倒数第二个节点指向sentinel
+        //把sentinel的prev指向倒数第二个节点
+        sentinel.prev = lastNode.prev;
+        //把倒数第二个节点指向sentinel
+        lastNode.prev.next = sentinel;
         size = size - 1;
         return lastNode.item;
     }
