@@ -49,6 +49,11 @@ public class ArrayDeque<T> {
         data[first] = null;
         first = (first + 1 + capacity) % capacity;  //first往后移
         size--;
+        // 检查是否需要缩小容量
+        if (size > 0 && size < capacity / 4 && capacity > 8) {
+            resize(capacity / 2);
+        }
+
         return element;
     }
 
@@ -61,6 +66,11 @@ public class ArrayDeque<T> {
         T element = data[last];
         data[last] = null;  //把最后一个元素设置为null
         size--;
+        // 检查是否需要缩小容量
+        if (size > 0 && size < capacity / 4 && capacity > 8) {
+            resize(capacity / 2);
+        }
+
         return element;
     }
 
