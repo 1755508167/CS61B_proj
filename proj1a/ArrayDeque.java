@@ -49,6 +49,7 @@ public class ArrayDeque<T> {
         first = (first + 1 + capacity) % capacity;  //first往后移
         T element = data[first];  //获取第一个元素
         data[first] = null;
+        first = (first + 1 + capacity) % capacity;  //first往后移
         size--;
         return element;
     }
