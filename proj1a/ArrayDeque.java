@@ -21,7 +21,7 @@ public class ArrayDeque<T> {
     public void addFirst(T item) {
         if (size >= capacity) {
             System.out.println("Deque is full.Then I will enlarge the capacity.");
-            //resize();  //扩大队列的容量
+            resize(capacity*2);  //扩大队列的容量
         } else {
             //先把指针往前移，再插入元素
             first = (first - 1 + capacity) % capacity; //把first向前移动一位，同时保证first在[0,capacity-1]范围内
@@ -56,7 +56,7 @@ public class ArrayDeque<T> {
     //删除最后一个元素
     public T removeLast() {
         if (isEmpty()) {
-            throw new IllegalStateException("Queue is empty");
+            return null;
         }
         last = (last - 1 + capacity) % capacity;
         T element = data[last];
@@ -65,12 +65,12 @@ public class ArrayDeque<T> {
         return element;
     }
 
-    //获取第i个元素
+    //获取索引为i的元素
     public T get(int i) {
         if (i < 0 || i >= size) {
             return null;
         }
-        int actualIndex = (first + i -1 + capacity) % capacity; //获取第i个元素的实际索引
+        int actualIndex = (first + i + capacity) % capacity; //获取第i个元素的实际索引
         T element = data[actualIndex];
         return element;
     }
