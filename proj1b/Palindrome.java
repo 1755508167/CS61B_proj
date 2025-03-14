@@ -26,9 +26,16 @@ public class Palindrome {
         return true;
     }
 
-    public static void main(String[] args){
-        Palindrome p=new Palindrome();
-        Deque<Character> d=p.wordToDeque("hello");
-        d.printDeque();
+    //另一种实现
+    public boolean isPalindrome(String word,CharacterComparator cc) {
+        Deque<Character> d=wordToDeque(word);
+        while (d.size()>1){
+            if(!cc.equalChars(d.removeFirst(),d.removeLast())){
+                return false;
+            }
+        }
+        return true;
+
     }
+
 }

@@ -22,5 +22,16 @@ public class TestPalindrome {
         Deque<Character> deque=p.wordToDeque("lol");
         assertTrue(palindrome.isPalindrome("lol"));
         assertFalse(palindrome.isPalindrome("cat"));
+        assertTrue(palindrome.isPalindrome("a"));
+        assertTrue(palindrome.isPalindrome(""));
+        assertTrue(palindrome.isPalindrome("anana"));
+    }
+    @Test
+    public void testisPalindrome() {
+        Palindrome p=new Palindrome();
+        assertFalse(p.isPalindrome("cat",new OffByOne()));
+        assertTrue(p.isPalindrome("flake",new OffByOne()));
+        assertTrue(p.isPalindrome("a",new OffByOne()));
+        assertTrue(p.isPalindrome("",new OffByOne()));
     }
 }
