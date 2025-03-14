@@ -8,23 +8,23 @@ A:
 
 Q: What's something you felt proud of in your code, if anything?
 
-A:
+A:I successfully completed the writing of the LinkedListDeque.
 
 Q: What's something that was particularly inelegant in your code, if anything?
 
-A:
+A:Comments don't conform to the specification.
 
 Q: What did you learn by talking to your partner about writing ArrayDeque?
 
-A:
+A:How to use Double linked list correctly.
 
 Q: What do you wish you would have known before writing ArrayDeque, if anything?
 
-A:
+A:The double linked list.
 
 Q: If you wrote ArrayDeque again, what would you do differently, if anything?
 
-A:
+A:Maybe no more.
 
 -----
 
@@ -60,4 +60,4 @@ Meta:
 
 Q: Did you like this design review process? Anything we should do differently next time?
 
-A: 
+A:Of course.
