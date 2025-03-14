@@ -1,4 +1,4 @@
-public class ArrayDeque<T> {
+public class ArrayDeque<T> implements Deque<T>{
     //使用数组作为核心数据结构，利用循环数组实现
     //get和size方法必须在常数时间内完成
     private int size; //已有的元素数量
@@ -18,6 +18,7 @@ public class ArrayDeque<T> {
     }
 
     //在首端添加一个元素
+    @Override
     public void addFirst(T item) {
         if (size >= capacity) {
             //System.out.println("Deque is full.Then I will enlarge the capacity.");
@@ -30,6 +31,7 @@ public class ArrayDeque<T> {
     }
 
     //在末端添加一个元素
+    @Override
     public void addLast(T item) {
         if (size >= capacity) {
             //System.out.println("Deque is full.Then I will enlarge the capacity.");
@@ -41,6 +43,7 @@ public class ArrayDeque<T> {
     }
 
     //删除第一个元素
+    @Override
     public T removeFirst() {
         if (isEmpty()) {
             return null;
@@ -58,6 +61,7 @@ public class ArrayDeque<T> {
     }
 
     //删除最后一个元素
+    @Override
     public T removeLast() {
         if (isEmpty()) {
             return null;
@@ -75,6 +79,7 @@ public class ArrayDeque<T> {
     }
 
     //获取索引为i的元素
+    @Override
     public T get(int i) {
         if (i < 0 || i >= size) {
             return null;
@@ -85,11 +90,13 @@ public class ArrayDeque<T> {
     }
 
     //判断是否为空
+    @Override
     public boolean isEmpty() {
         return size == 0;
     }
 
     //返回元素数量
+    @Override
     public int size() {
         return size;
     }
