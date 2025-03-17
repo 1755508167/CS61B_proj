@@ -1,4 +1,5 @@
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 public class TestPalindrome {
@@ -18,20 +19,24 @@ public class TestPalindrome {
 
     @Test
     public void isPalindrome() {
-        Palindrome p=new Palindrome();
-        Deque<Character> deque=p.wordToDeque("lol");
+        Palindrome p = new Palindrome();
+        Deque<Character> deque = p.wordToDeque("lol");
         assertTrue(palindrome.isPalindrome("lol"));
         assertFalse(palindrome.isPalindrome("cat"));
         assertTrue(palindrome.isPalindrome("a"));
         assertTrue(palindrome.isPalindrome(""));
         assertTrue(palindrome.isPalindrome("anana"));
+        assertTrue(palindrome.isPalindrome("&"));
+        assertTrue(palindrome.isPalindrome("Ana"));
     }
+
     @Test
     public void testisPalindrome() {
-        Palindrome p=new Palindrome();
-        assertFalse(p.isPalindrome("cat",new OffByOne()));
-        assertTrue(p.isPalindrome("flake",new OffByOne()));
-        assertTrue(p.isPalindrome("a",new OffByOne()));
-        assertTrue(p.isPalindrome("",new OffByOne()));
+        Palindrome p = new Palindrome();
+        assertFalse(p.isPalindrome("cat", new OffByOne()));
+        assertTrue(p.isPalindrome("flake", new OffByOne()));
+        assertTrue(p.isPalindrome("a", new OffByOne()));
+        assertTrue(p.isPalindrome("", new OffByOne()));
+        assertTrue(p.isPalindrome("Anb",new OffByOne()));
     }
 }
