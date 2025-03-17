@@ -16,12 +16,9 @@ public class Palindrome {
         Palindrome p = new Palindrome();
         Deque<Character> deque = p.wordToDeque(word);
         int j = deque.size() - 1;
-        for (int i = 0; i < deque.size(); i++) {
+        for (int i = 0; i < deque.size(); i++,j--) {
             if (deque.get(i) != deque.get(j)) {
                 return false;
-            } else {
-                j--;
-                continue;
             }
         }
         return true;

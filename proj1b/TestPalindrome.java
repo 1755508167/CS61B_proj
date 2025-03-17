@@ -19,26 +19,23 @@ public class TestPalindrome {
 
     @Test
     public void isPalindrome() {
-        Palindrome p = new Palindrome();
-        Deque<Character> deque = p.wordToDeque("lol");
-        assertTrue(palindrome.isPalindrome("lol"));
-        assertFalse(palindrome.isPalindrome("cat"));
-        assertTrue(palindrome.isPalindrome("a"));
+        assertTrue(palindrome.isPalindrome("cac"));
+        assertTrue(palindrome.isPalindrome("caaaac"));
         assertTrue(palindrome.isPalindrome(""));
-        assertTrue(palindrome.isPalindrome("anana"));
-        assertTrue(palindrome.isPalindrome("&"));
+        assertTrue(palindrome.isPalindrome("c"));
+        assertFalse(palindrome.isPalindrome("cat"));
         assertFalse(palindrome.isPalindrome("Aa"));
         assertFalse(palindrome.isPalindrome("caaaaaaaa"));
     }
 
     @Test
-    public void testisPalindrome() {
-        Palindrome p = new Palindrome();
-        assertFalse(p.isPalindrome("cat", new OffByOne()));
-        assertTrue(p.isPalindrome("flake", new OffByOne()));
-        assertTrue(p.isPalindrome("a", new OffByOne()));
-        assertTrue(p.isPalindrome("", new OffByOne()));
-        assertFalse(p.isPalindrome("Anb",new OffByOne()));
+    public void testisPalindromeOffByOne() {
+        assertTrue(palindrome.isPalindrome("flake", new OffByOne()));
+        assertTrue(palindrome.isPalindrome("flke", new OffByOne()));
+        assertTrue(palindrome.isPalindrome("FLaKE", new OffByOne()));
+        assertTrue(palindrome.isPalindrome("fl&a%ke", new OffByOne()));
+        assertFalse(palindrome.isPalindrome("aaaa", new OffByOne()));
+        assertFalse(palindrome.isPalindrome("AAaA", new OffByOne()));
     }
 
     @Test
