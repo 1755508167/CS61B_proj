@@ -27,7 +27,8 @@ public class TestPalindrome {
         assertTrue(palindrome.isPalindrome(""));
         assertTrue(palindrome.isPalindrome("anana"));
         assertTrue(palindrome.isPalindrome("&"));
-        assertFalse(palindrome.isPalindrome("Ana"));
+        assertFalse(palindrome.isPalindrome("Aa"));
+        assertFalse(palindrome.isPalindrome("caaaaaaaa"));
     }
 
     @Test
@@ -38,5 +39,15 @@ public class TestPalindrome {
         assertTrue(p.isPalindrome("a", new OffByOne()));
         assertTrue(p.isPalindrome("", new OffByOne()));
         assertFalse(p.isPalindrome("Anb",new OffByOne()));
+    }
+
+    @Test
+    public void testIsPalindromeInOffByN() {
+        assertTrue(palindrome.isPalindrome("FLAKE", new OffByN(1)));
+        assertTrue(palindrome.isPalindrome("flke", new OffByN(1)));
+        assertTrue(palindrome.isPalindrome("fl&a%ke", new OffByN(1)));
+        assertFalse(palindrome.isPalindrome("aaaa", new OffByN(1)));
+        assertTrue(palindrome.isPalindrome("fFaHh", new OffByN(2)));
+        assertTrue(palindrome.isPalindrome("fh", new OffByN(2)));
     }
 }
