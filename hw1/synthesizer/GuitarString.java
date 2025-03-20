@@ -1,6 +1,6 @@
 // TODO: Make sure to make this class a part of the synthesizer package
 package synthesizer;
-
+import synthesizer.BoundedQueue;
 //Make sure this class is public
 public class GuitarString {
     /** Constants. Do not change. In case you're curious, the keyword final means
@@ -40,14 +40,6 @@ public class GuitarString {
             buffer.dequeue();
             buffer.enqueue(r);
         }
-        for (int i =0;i< buffer.capacity();i++){
-            //先deque first
-            double first= buffer.dequeue();
-            //然后取平均值
-            double average=DECAY* (first+buffer.peek())*0.5;
-            //然后再放入队列
-            buffer.enqueue(average);
-        }
     }
 
     /* Advance the simulation one time step by performing one iteration of
@@ -57,11 +49,17 @@ public class GuitarString {
         // TODO: Dequeue the front sample and enqueue a new sample that is
         //       the average of the two multiplied by the DECAY factor.
         //       Do not call StdAudio.play().
+        //先deque first
+        double first= buffer.dequeue();
+        //然后取平均值
+        double average=DECAY* (first+buffer.peek())*0.5;
+        //然后再放入队列
+        buffer.enqueue(average);
     }
 
     /* Return the double at the front of the buffer. */
     public double sample() {
         // TODO: Return the correct thing.
-        return 0;
+        return buffer.peek();
     }
 }
