@@ -1,5 +1,5 @@
 // TODO: Make sure to make this class a part of the synthesizer package
-//package <package name>;
+package synthesizer;
 
 //Make sure this class is public
 public class GuitarString {
@@ -10,6 +10,7 @@ public class GuitarString {
     private static final double DECAY = .996; // energy decay factor
 
     /* Buffer for storing sound data. */
+    //定义一个队列
     private BoundedQueue<Double> buffer;
 
     /* Create a guitar string of the given frequency.  */
@@ -18,8 +19,12 @@ public class GuitarString {
         //       cast the result of this divsion operation into an int. For better
         //       accuracy, use the Math.round() function before casting.
         //       Your buffer should be initially filled with zeros.
+        int capacity=(int) Math.round(SR / frequency);
+        buffer=new ArrayRingBuffer(capacity);
+        for (int i =0;i<capacity;i++){
+            buffer.enqueue(0.0);
+        }
     }
-
 
     /* Pluck the guitar string by replacing the buffer with white noise. */
     public void pluck() {
@@ -28,6 +33,21 @@ public class GuitarString {
         //       double r = Math.random() - 0.5;
         //
         //       Make sure that your random numbers are different from each other.
+
+        //加入白噪声
+        for (int i=0;i<buffer.capacity();i++){
+            double r=Math.random()-0.5;
+            buffer.dequeue();
+            buffer.enqueue(r);
+        }
+        for (int i =0;i< buffer.capacity();i++){
+            //先deque first
+            double first= buffer.dequeue();
+            //然后取平均值
+            double average=DECAY* (first+buffer.peek())*0.5;
+            //然后再放入队列
+            buffer.enqueue(average);
+        }
     }
 
     /* Advance the simulation one time step by performing one iteration of
