@@ -20,9 +20,23 @@ public class TestArrayRingBuffer {
         int item=arb.dequeue();
         assertEquals(1,item);
         int peek=arb.peek();
-        System.out.println(arb.peek());
+        //System.out.println(arb.peek());
         //assertEquals(2,peek);
 
+    }
+
+    @Test
+    public void testForLoop() {
+        ArrayRingBuffer<Integer> arb = new ArrayRingBuffer(10);
+        for (int i =0;i<7;i++){
+            arb.enqueue(i);
+        }
+        for (int i=0;i<4;i++){
+            arb.dequeue();
+        }
+        for(int x:arb){
+            System.out.println(x);
+        }
     }
 
     /** Calls tests for ArrayRingBuffer. */

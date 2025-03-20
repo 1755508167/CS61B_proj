@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 //TODO: Make sure to make this class and all of its methods public
 //TODO: Make sure to make this class extend AbstractBoundedQueue<t>
-public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
+public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> implements Iterable<T>{
     /* Index for the next dequeue or peek. */
     private int first;            // index for the next dequeue or peek
     /* Index for the next enqueue. */
@@ -76,17 +76,21 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
 
     private class SetArrayBufferIterator implements Iterator<T> {
         int position;
+        //用来记录已经访问的元素
+        int count;
         SetArrayBufferIterator() {
             position=first;
+            count=0;
         }
         @Override
         public boolean hasNext() {
-            return position==fillCount;
+            return count<fillCount;
         }
         @Override
         public T next() {
             T nextitem=rb[position];
             position=(position+1+capacity)%capacity;
+            count++;
             return nextitem;
         }
     }
