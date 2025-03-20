@@ -37,9 +37,6 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      */
     public void enqueue(T x) {
         // TODO: Enqueue the item. Don't forget to increase fillCount and update last.
-        if (isFull()) {
-            throw new RuntimeException("Ring buffer overflow");
-        }
         rb[last] = x;
         last = (last + 1 + capacity) % capacity;
         fillCount++;
