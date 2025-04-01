@@ -54,8 +54,10 @@ public class Game {
         //把world填充为NOTHING
         initWorld(finalWorldFrame);
 
-        //把字符串转换成int
-        int seed = Integer.parseInt(input);
+        //处理输入
+        String numbers = input.replaceAll("\\D", ""); // \\D 表示非数字字符，替换为空
+        Long seed=Long.parseLong(numbers);
+
         //生成一个random对象
         Random random = new Random(seed);
         //使用列表来存储生成的房间，可以用来检测是否存在房间重叠
@@ -124,7 +126,7 @@ public class Game {
     }
 
     //添加玩家
-    public void addPlayer(TETile[][] world,int seed) {
+    public void addPlayer(TETile[][] world,long seed) {
         //收集所有有效生成点
         List<Position> validPlayer=new ArrayList<>();
         for (int x =1;x<WIDTH;x++){
@@ -142,7 +144,7 @@ public class Game {
     }
 
     //添加门,door的前后左右四个tiel中，必须有FLOOR和NOTHING
-    public void addDoor(TETile[][] world,int seed) {
+    public void addDoor(TETile[][] world,long seed) {
         List<Position> valisdDoors = new ArrayList<>();
         //遍历某一行
         for (int x = 1; x < WIDTH - 1; x++) {

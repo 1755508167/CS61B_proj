@@ -22,6 +22,10 @@ public class Main {
      */
     public static void main(String[] args) {
         Game game=new Game();
+        String input = "n455857754086099036s";
+        String numbers = input.replaceAll("\\D", ""); // \\D 表示非数字字符，替换为空
+        Long number=Long.parseLong(numbers);
+        System.out.println(numbers);
         TETile[][] world=game.playWithInputString("37636");
     }
 }
