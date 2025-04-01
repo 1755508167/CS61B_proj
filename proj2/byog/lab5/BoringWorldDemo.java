@@ -13,10 +13,12 @@ public class BoringWorldDemo {
 
     public static void main(String[] args) {
         // initialize the tile rendering engine with a window of size WIDTH x HEIGHT
+        //初始化瓦片渲染引擎，确定长和宽
         TERenderer ter = new TERenderer();
         ter.initialize(WIDTH, HEIGHT);
 
         // initialize tiles
+        //生成一个二维数组用来存放tiles
         TETile[][] world = new TETile[WIDTH][HEIGHT];
         for (int x = 0; x < WIDTH; x += 1) {
             for (int y = 0; y < HEIGHT; y += 1) {
@@ -25,6 +27,7 @@ public class BoringWorldDemo {
         }
 
         // fills in a block 14 tiles wide by 4 tiles tall
+        //填充一些tiles
         for (int x = 20; x < 35; x += 1) {
             for (int y = 5; y < 10; y += 1) {
                 world[x][y] = Tileset.WALL;
@@ -32,6 +35,7 @@ public class BoringWorldDemo {
         }
 
         // draws the world to the screen
+        //开始绘制
         ter.renderFrame(world);
     }
 
