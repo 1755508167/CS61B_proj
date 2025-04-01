@@ -62,7 +62,7 @@ public class Game {
         Room room1 = generateRoom(random);
         roomList.add(room1);
         //房间的数量
-        int roomNums = random.nextInt(7, RoomNumRange);
+        int roomNums = 7+random.nextInt(RoomNumRange-7);
         System.out.println("roomNums:" + (roomNums + 1));
         //检测重叠
         for (int i = 0; i < roomNums; i++) {
@@ -106,9 +106,9 @@ public class Game {
         //添加墙壁
         generateWall(finalWorldFrame);
         //添加门
-        addDoor(finalWorldFrame);
+        addDoor(finalWorldFrame,seed);
         //添加玩家
-        addPlayer(finalWorldFrame);
+        addPlayer(finalWorldFrame,seed);
 
         //渲染世界
         ter.renderFrame(finalWorldFrame);
@@ -118,7 +118,7 @@ public class Game {
     }
 
     //添加玩家
-    public void addPlayer(TETile[][] world) {
+    public void addPlayer(TETile[][] world,int seed) {
         //收集所有有效生成点
         List<Position> validPlayer=new ArrayList<>();
         for (int x =1;x<WIDTH;x++){
@@ -128,25 +128,31 @@ public class Game {
                 }
             }
         }
-        int x =validPlayer.get(0).x;
-        int y=validPlayer.get(0).y;
+        Random random=new Random(seed);
+        int randomIndex=random.nextInt(validPlayer.size());
+        int x =validPlayer.get(randomIndex).x;
+        int y=validPlayer.get(randomIndex).y;
         world[x][y]=Tileset.PLAYER;
     }
 
     //添加门,door的前后左右四个tiel中，必须有FLOOR和NOTHING
-    public void addDoor(TETile[][] world) {
+    public void addDoor(TETile[][] world,int seed) {
         List<Position> valisdDoors = new ArrayList<>();
         //遍历某一行
         for (int x = 1; x < WIDTH - 1; x++) {
             for (int y = 1; y < HEIGHT - 1; y++) {
-                if (checkHorizontalPattern(world, x, y) || checkVerticalPattern(world, x, y)) {
+                if (world[x][y]==Tileset.WALL &&
+                        (checkHorizontalPattern(world, x, y) || checkVerticalPattern(world, x, y))
+                ) {
                     valisdDoors.add(new Position(x, y));
                 }
             }
         }
-        int x = valisdDoors.get(0).x;
-        int y = valisdDoors.get(0).y;
-        System.out.println("DOOR.x:" + x);
+        Random random=new Random(seed);
+        int randomIndex=random.nextInt(valisdDoors.size());
+        int x = valisdDoors.get(randomIndex).x;
+        int y = valisdDoors.get(randomIndex).y;
+        //System.out.println("DOOR.x:" + x);
         world[x][y] = Tileset.LOCKED_DOOR;
 
     }
@@ -368,7 +374,7 @@ public class Game {
     public Room generateRoom(Random random) {
         //nextInt是左闭右开
         //因为房间的最小长宽为2，所以是width-2,height-2
-        Position position = new Position(random.nextInt(1, WIDTH - 2), random.nextInt(2, HEIGHT - 1));
+        Position position = new Position(1+random.nextInt( WIDTH - 3), 2+random.nextInt( HEIGHT - 3));
         //System.out.println("position.x:"+position.x);
         //System.out.println("position.y:"+position.y);
         int width;
@@ -379,29 +385,20 @@ public class Game {
         int maxHeight = position.y;   // 房间下方最大可用空间
 
         if (maxWidth > RoomWidthRange) {
-            width = random.nextInt(2, RoomWidthRange);//宽的范围为10
+            width = 2+random.nextInt(RoomWidthRange-2);//宽的范围为10
         } else if (maxWidth == 2) {
             width = 2;
         } else {
-            width = random.nextInt(2, maxWidth);
+            width = 2+random.nextInt(maxWidth-2);
         }
 
         if (maxHeight > RoomHeightRange) {
-            height = random.nextInt(2, RoomHeightRange);
+            height = 2+random.nextInt( RoomHeightRange-2);
         } else if (maxHeight == 2) {
             height = 2;
         } else {
-            height = random.nextInt(2, maxHeight);
+            height = 2+random.nextInt(maxHeight-2);
         }
-
-        /*
-        while (true) {
-            width = random.nextInt(2, RoomWidthRange);//宽的范围为10
-            height = random.nextInt(2, RoomHeightRange);//长的范围为10
-            if (position.x + width-1 < )
-        }
-         */
-
         Room room = new Room(position, width, height);
 
         return room;

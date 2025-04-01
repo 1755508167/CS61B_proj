@@ -22,6 +22,6 @@ public class Main {
      */
     public static void main(String[] args) {
         Game game=new Game();
-        TETile[][] world=game.playWithInputString("453936");
+        TETile[][] world=game.playWithInputString("37636");
     }
 }
