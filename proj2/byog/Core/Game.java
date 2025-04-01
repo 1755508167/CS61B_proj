@@ -6,7 +6,9 @@ import byog.TileEngine.Tileset;
 
 import byog.lab5.Position;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -46,7 +48,7 @@ public class Game {
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().
 
-        ter.initialize(WIDTH, HEIGHT);
+        //ter.initialize(WIDTH, HEIGHT);
         //创建一个世界
         TETile[][] finalWorldFrame = new TETile[WIDTH][HEIGHT];
         //把world填充为NOTHING
@@ -63,7 +65,7 @@ public class Game {
         roomList.add(room1);
         //房间的数量
         int roomNums = 7+random.nextInt(RoomNumRange-7);
-        System.out.println("roomNums:" + (roomNums + 1));
+        //System.out.println("roomNums:" + (roomNums + 1));
         //检测重叠
         for (int i = 0; i < roomNums; i++) {
             Room room = generateRoom(random);
@@ -83,16 +85,18 @@ public class Game {
         }
         //对所有房间进行排序，按照房间左上角的点的x坐标
         roomSort(roomList);
-
+        /*
         for (Room room : roomList) {
             System.out.println(room.position.x + " " + room.position.y + " " + room.width + " " + room.height);
         }
+
+         */
 
         for (Room room : roomList) {
             drawRoom(finalWorldFrame, room);
         }
 
-        System.out.println("生成的房间数量：" + roomList.size());
+        //System.out.println("生成的房间数量：" + roomList.size());
 
         //绘制走廊
         int one = 0;
@@ -110,8 +114,10 @@ public class Game {
         //添加玩家
         addPlayer(finalWorldFrame,seed);
 
+
+        System.out.println(Arrays.deepToString(finalWorldFrame));
         //渲染世界
-        ter.renderFrame(finalWorldFrame);
+        //ter.renderFrame(finalWorldFrame);
 
         return finalWorldFrame;
 
@@ -152,7 +158,6 @@ public class Game {
         int randomIndex=random.nextInt(valisdDoors.size());
         int x = valisdDoors.get(randomIndex).x;
         int y = valisdDoors.get(randomIndex).y;
-        //System.out.println("DOOR.x:" + x);
         world[x][y] = Tileset.LOCKED_DOOR;
 
     }
@@ -197,15 +202,6 @@ public class Game {
 
         int x2 = center2.x;
         int y2 = center2.y;
-        /*
-        System.out.println("x1:"+x1);
-        System.out.println("x2:"+x2);
-
-        System.out.println("y1:"+y1);
-        System.out.println("y2:"+y2);
-
-         */
-
         // 先水平连接，再垂直连接
         createHorizontalCorridor(world, x1, x2, y1);
         createVerticalCorridor(world, y1, y2, x2);
@@ -375,8 +371,6 @@ public class Game {
         //nextInt是左闭右开
         //因为房间的最小长宽为2，所以是width-2,height-2
         Position position = new Position(1+random.nextInt( WIDTH - 3), 2+random.nextInt( HEIGHT - 3));
-        //System.out.println("position.x:"+position.x);
-        //System.out.println("position.y:"+position.y);
         int width;
         int height;
 
