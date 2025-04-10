@@ -30,11 +30,6 @@ public class Percolation {
     public void open(int row, int col) {
         if (!system[row][col]) {
             system[row][col] = true;
-        } else {
-            if ((row < 0 || row > size) && (col < 0 || col > size)) {
-                throw new java.lang.IndexOutOfBoundsException("index is out of range");
-            }
-            system[row][col] = true;
             count++;
             //转换坐标
             int index = getIndex(row, col);
@@ -56,6 +51,11 @@ public class Percolation {
                     uf.union(neighbroIndex, index);
                 }
             }
+        } else {
+            if ((row < 0 || row > size) && (col < 0 || col > size)) {
+                throw new java.lang.IndexOutOfBoundsException("index is out of range");
+            }
+
         }
     }
     // is the site (row, col) open?
@@ -104,17 +104,4 @@ public class Percolation {
         return row*size+col;
     }
 
-    public static void main(String[] args){
-        Percolation p=new Percolation(5);
-        p.open(4,4);
-        //初始化一个并查集
-        WeightedQuickUnionUF set=new WeightedQuickUnionUF(5);
-        //返回4所在的集合的代表元素
-        System.out.println(set.find(4));
-        System.out.println(set.count());
-        set.union(1,2);
-        System.out.println(set.connected(1,2));
-        System.out.println(set.find(2));
-
-    }   // use for unit testing (not required)
 }
