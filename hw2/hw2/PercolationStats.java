@@ -65,12 +65,4 @@ public class PercolationStats {
         return mean() + (1.96 * stddev() / Math.sqrt(threshold.size()));
     }
 
-    public static void main(String[] args){
-        PercolationFactory pf=new PercolationFactory();
-        PercolationStats p=new PercolationStats(20,70,pf);
-        System.out.println("mean = " + p.mean());
-        System.out.println("stddev = " + p.stddev());
-        System.out.println("95% confidence interval = [" + p.confidenceLow() + ", " + p.confidenceHigh() + "]");
-    }
-
 }

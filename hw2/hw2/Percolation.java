@@ -6,6 +6,7 @@ public class Percolation {
     private int size;
     private boolean[][] system;
     private WeightedQuickUnionUF uf;
+    private WeightedQuickUnionUF uf2;
     //这是两个虚拟节点
     private int virtualTop;//这个节点与第一行的所有节点相连
     private int virtualBottom;//这个节点与最后一行的所有节点相连
@@ -21,6 +22,7 @@ public class Percolation {
         size=N;
         int totalSites=N*N;
         uf=new WeightedQuickUnionUF(totalSites+2);//多两个虚拟节点
+        uf2=new WeightedQuickUnionUF(totalSites+1);
         virtualTop = totalSites;
         virtualBottom = totalSites + 1;
         //默认值就是flase，无需再初始化
@@ -36,8 +38,9 @@ public class Percolation {
             //如果打开的是第一行的节点，那么把这个节点连接到虚拟顶部
             if (row == 0) {
                 uf.union(index, virtualTop);
+                uf2.union(index, virtualTop);
             }
-            //如果打开的是最后一行的节点，那么把这个节点连接到虚拟顶部
+            //如果打开的是最后一行的节点，那么把这个节点连接到虚拟底部
             if (row == size - 1) {
                 uf.union(index, virtualBottom);
             }
@@ -47,8 +50,9 @@ public class Percolation {
                 int newRow = row + dir[0];
                 int newCol = col + dir[1];
                 if (validate(newRow, newCol) && isOpen(newRow, newCol)) {
-                    int neighbroIndex = getIndex(newRow, newCol);
-                    uf.union(neighbroIndex, index);
+                    int neighborIndex = getIndex(newRow, newCol);
+                    uf.union(neighborIndex, index);
+                    uf2.union(neighborIndex, index); // ← 这里是关键
                 }
             }
         } else {
@@ -73,7 +77,7 @@ public class Percolation {
             if (!isOpen(row,col)){
                 return false;
             }else {
-                return uf.connected(getIndex(row,col),virtualTop);
+                return uf2.connected(getIndex(row,col),virtualTop);
             }
         }else {
             throw new IndexOutOfBoundsException("Invalid row or column index");
@@ -104,4 +108,7 @@ public class Percolation {
         return row*size+col;
     }
 
+    public static void main(String[] args){
+
+    }
 }
