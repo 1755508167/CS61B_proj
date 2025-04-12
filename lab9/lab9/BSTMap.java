@@ -1,109 +1,200 @@
 package lab9;
-
 import java.util.Iterator;
 import java.util.Set;
-
-/**
- * Implementation of interface Map61B with BST as core data structure.
- *
- * @author Your name here
- */
+//K是key的类型,V是value的类型
+//Map 是一个把 key 映射到 value 的集合，key 不能重复，value 可以重复。
 public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
-
-    private class Node {
-        /* (K, V) pair stored in this Node. */
+    //定义一个节点类
+    private class Node{
         private K key;
         private V value;
-
-        /* Children of this Node. */
         private Node left;
         private Node right;
 
-        private Node(K k, V v) {
-            key = k;
-            value = v;
+        private Node(K key,V value){
+            this.key=key;
+            this.value=value;
+        }
+    }
+    //定义根节点
+    private Node root;
+    //用来存储键值对的数量
+    private int count;
+
+    //构造函数
+    public BSTMap(){
+        root=null;
+    }
+    //移除所有元素
+    @Override
+    public void clear() {
+        root=null;
+        count=0;
+    }
+
+    @Override
+    public boolean containsKey(K key) {
+        return search(root,key)!=null;
+    }
+    //定义一个search函数
+    private Node search(Node node,K key){
+        if (node==null){
+            return null;
+        }
+        if (key==node.key){
+            return node;
+        }
+        //如果key>node.key
+        if (key.compareTo(node.key)>0){
+            return search(node.right,key);
+        } else {
+            return search(node.left,key);
         }
     }
 
-    private Node root;  /* Root node of the tree. */
-    private int size; /* The number of key-value pairs in the tree */
-
-    /* Creates an empty BSTMap. */
-    public BSTMap() {
-        this.clear();
-    }
-
-    /* Removes all of the mappings from this map. */
-    @Override
-    public void clear() {
-        root = null;
-        size = 0;
-    }
-
-    /** Returns the value mapped to by KEY in the subtree rooted in P.
-     *  or null if this map contains no mapping for the key.
-     */
-    private V getHelper(K key, Node p) {
-        throw new UnsupportedOperationException();
-    }
-
-    /** Returns the value to which the specified key is mapped, or null if this
-     *  map contains no mapping for the key.
-     */
-    @Override
+    @Override//返回key对应的value
     public V get(K key) {
-        throw new UnsupportedOperationException();
+        if (root==null){
+            return null;
+        }else {
+            Node node=search(root,key);
+            if (node==null){
+                throw new NullPointerException("key doesn't exists.");
+            }else {
+                return node.value;
+            }
+        }
+
     }
 
-    /** Returns a BSTMap rooted in p with (KEY, VALUE) added as a key-value mapping.
-      * Or if p is null, it returns a one node BSTMap containing (KEY, VALUE).
-     */
-    private Node putHelper(K key, V value, Node p) {
-        throw new UnsupportedOperationException();
+    @Override//返回键值对的数量
+    public int size() {
+        return count;
     }
 
-    /** Inserts the key KEY
-     *  If it is already present, updates value to be VALUE.
-     */
+    //插入键值对
     @Override
     public void put(K key, V value) {
-        throw new UnsupportedOperationException();
+        root=insert(root,key,value);
     }
 
-    /* Returns the number of key-value mappings in this map. */
-    @Override
-    public int size() {
-        throw new UnsupportedOperationException();
+    //定义一个辅助函数
+    private Node insert(Node node,K key,V value){
+        if (node==null) {
+            node = new Node(key, value);
+            count++;
+            return node;
+        }
+        //如果value>node.value
+        if (key.compareTo(node.key)>0){
+            node.right=insert(node.right,key,value);
+        } else if (key.compareTo(node.key)<0) {
+            node.left=insert(node.left,key,value);
+        }//当value==node.value时不用插入
+        return node;
     }
 
-    //////////////// EVERYTHING BELOW THIS LINE IS OPTIONAL ////////////////
-
-    /* Returns a Set view of the keys contained in this map. */
-    @Override
+    @Override//返回一个集合 ，包含所有的key
     public Set<K> keySet() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("Unsupported.");
     }
 
-    /** Removes KEY from the tree if present
-     *  returns VALUE removed,
-     *  null on failed removal.
-     */
     @Override
     public V remove(K key) {
-        throw new UnsupportedOperationException();
+        Node node=search(root,key);
+        if (node==null){
+            throw new NullPointerException("key doesn't exist.");
+        }
+        root=delete(root,key,node.value);
+        count--;
+        return node.value;
     }
 
-    /** Removes the key-value entry for the specified key only if it is
-     *  currently mapped to the specified value.  Returns the VALUE removed,
-     *  null on failed removal.
-     **/
     @Override
     public V remove(K key, V value) {
-        throw new UnsupportedOperationException();
+        throw new  UnsupportedOperationException("doesn't finish it");
+    }
+    //定义一个辅助函数delete
+    private Node delete(Node node,K key,V value){
+        if (containsKey(key)){
+            if (node==null){
+                return null;
+            }
+            //value<node.value
+            if (key.compareTo(node.key)<0){
+                node.left=delete(node.left,key,value);
+                count--;
+            } else if (key.compareTo(node.key)>0) {
+                node.right=delete(node.right,key,value);
+            }else {//当value==node.value时，有三种情况
+                //case1:当node没有子节点时
+                if (node.left==null && node.right==null){
+                }
+                //case2:当node只有一个子节点时
+                if (node.left==null){
+                    count--;
+                    return node.right;
+                }
+                if (node.right==null){
+                    count--;
+                    return node.left;
+                }
+                //case3:当node有两个节点
+                Node minNode=findMin(node.right);//找到右子树的最小节点
+                node.value=minNode.value;//用最小值来替换当前节点的值
+                node.right = delete(node.right, minNode.key, minNode.value);//然后删除右子树中的最小节点
+            }
+            return node;
+        }else {
+            throw new RuntimeException("Key doesn't exists.");
+        }
+    }
+    //找到一个树中的最小值
+    private Node findMin(Node node){
+        while (node.left!=null){
+            node=node.left;
+        }
+        return node;
     }
 
     @Override
     public Iterator<K> iterator() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("Unsupported.");
+    }
+
+    //按照key的递增顺序打印出值
+    public void printInOrder() {
+        inOrder(root);
+        System.out.println();
+    }
+    //中序遍历
+    private void inOrder(Node node){
+        if (node==null){
+            return;
+        }
+        //先遍历左子树
+        inOrder(node.left);
+        System.out.print(node.value+" ");
+        //再遍历右子树
+        inOrder(node.right);
+    }
+    //以树状结构打印二叉树
+    public void printTree(){
+        prettyPrint(root,"",true);
+    }
+    // 辅助函数：递归打印每一层
+    // 辅助递归函数
+    private void prettyPrint(Node node, String prefix, boolean isTail) {
+        if (node == null) return;
+
+        if (node.right != null) {
+            prettyPrint(node.right, prefix + (isTail ? "│   " : "    "), false);
+        }
+
+        System.out.println(prefix + (isTail ? "└── " : "┌── ") + node.value);
+
+        if (node.left != null) {
+            prettyPrint(node.left, prefix + (isTail ? "    " : "│   "), true);
+        }
     }
 }
