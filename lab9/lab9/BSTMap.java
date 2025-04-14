@@ -41,7 +41,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         if (node==null){
             return null;
         }
-        if (key==node.key){
+        if (key.equals(node.key)){
             return node;
         }
         //如果key>node.key
