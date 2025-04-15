@@ -46,7 +46,7 @@ public class SimpleOomage implements Oomage {
             int g = green / 5;
             int b = blue / 5;
             // 使用类似三位进制的编码方式，避免碰撞
-            return r * 51 * 51 + g * 51 + b;
+            return r * 52 * 52 + g * 52 + b;
         }
     }
 
