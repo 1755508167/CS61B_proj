@@ -7,6 +7,7 @@ import static org.junit.Assert.*;
  * (represented by type T), along with a priority value. Why do it this way? It
  * will be useful later on in the class...
  */
+//使用二叉最小堆实现优先队列
 public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     private Node[] contents;
     private int size;
@@ -26,25 +27,28 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     /**
      * Returns the index of the node to the left of the node at i.
      */
+    //返回当前节点的左子节点的索引
     private static int leftIndex(int i) {
         /* TODO: Your code here! */
-        return 0;
+        return 2*i;
     }
 
     /**
      * Returns the index of the node to the right of the node at i.
      */
+    //返回当前节点的左子节点的索引
     private static int rightIndex(int i) {
         /* TODO: Your code here! */
-        return 0;
+        return 2*i+1;
     }
 
     /**
      * Returns the index of the node that is the parent of the node at i.
      */
+    //返回当前节点的父节点的索引
     private static int parentIndex(int i) {
         /* TODO: Your code here! */
-        return 0;
+        return i/2;
     }
 
     /**
@@ -63,16 +67,15 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      * we have 5 items, then the valid indices are 1, 2, 3, 4, 5. Index 0 is
      * invalid because we leave the 0th entry blank.
      */
+    //判断索引是否有效，从1开始算，0是无效的
     private boolean inBounds(int index) {
-        if ((index > size) || (index < 1)) {
-            return false;
-        }
-        return true;
+        return (index <= size) && (index >= 1);
     }
 
     /**
      * Swap the nodes at the two indices.
      */
+    //交换这两个索引的节点
     private void swap(int index1, int index2) {
         Node node1 = getNode(index1);
         Node node2 = getNode(index2);
@@ -85,6 +88,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      * Returns the index of the node with smaller priority. Precondition: not
      * both nodes are null.
      */
+    //返回优先级较小的那个节点
     private int min(int index1, int index2) {
         Node node1 = getNode(index1);
         Node node2 = getNode(index2);
@@ -103,29 +107,55 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     /**
      * Bubbles up the node currently at the given index.
      */
+    //把index处的节点向上浮动
     private void swim(int index) {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
-        validateSinkSwimArg(index);
+        validateSinkSwimArg(index);//判断索引是否有效
 
         /** TODO: Your code here. */
-        return;
+        while (index>1){
+            //计算父节点的索引
+            int parent=parentIndex(index);
+            //比较优先级
+            if (getNode(parent).myPriority > getNode(index).myPriority){
+                swap(index,parent);
+                index=parent;
+            }else {
+                break;
+            }
+        }
     }
 
     /**
      * Bubbles down the node currently at the given index.
      */
+    //向下沉到索引index处
     private void sink(int index) {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
         validateSinkSwimArg(index);
 
         /** TODO: Your code here. */
-        return;
+        while (leftIndex(index) <= size) { // 只要有左子节点就继
+            int left=leftIndex(index);
+            int right=rightIndex(index);
+            //选出左右子节点中优先级较小的哪一个
+            int smallerChild=min(left,right);
+            //如果当前节点已经比子节点的优先级小
+            if (getNode(index).myPriority < getNode(smallerChild).myPriority){
+                break;
+            }
+            //否则交换，并继续往下
+            swap(index,smallerChild);
+            index=smallerChild;
+        }
+
     }
 
     /**
      * Inserts an item with the given priority value. This is enqueue, or offer.
      * To implement this method, add it to the end of the ArrayList, then swim it.
      */
+    //插入新元素
     @Override
     public void insert(T item, double priority) {
         /* If the array is totally full, resize. */
@@ -134,16 +164,23 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         }
 
         /* TODO: Your code here! */
+        size++;
+        int index=size();
+        Node node=new Node(item,priority);
+        contents[index]=node;
+        swim(index);
+
     }
 
     /**
      * Returns the Node with the smallest priority value, but does not remove it
      * from the heap. To implement this, return the item in the 1st position of the ArrayList.
      */
+    //查看堆顶的元素，不删除
     @Override
     public T peek() {
         /* TODO: Your code here! */
-        return null;
+        return contents[1].myItem;
     }
 
     /**
@@ -155,10 +192,17 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      * them repeatedly. Make sure to avoid loitering by nulling out the dead
      * item.
      */
+    //删除并返回堆顶元素
     @Override
     public T removeMin() {
         /* TODO: Your code here! */
-        return null;
+        T item=contents[1].myItem;
+        swap(1,size());//将堆顶节点与堆底节点交换
+        contents[size()]=null;//删除堆底的这个节点
+        //然后将交换后的堆顶节点向下沉
+        size--;
+        sink(1);
+        return item;
     }
 
     /**
@@ -166,6 +210,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      * of the backing ArrayList because we leave the 0th element empty. This
      * method has been implemented for you.
      */
+    //返回堆的大小
     @Override
     public int size() {
         return size;
@@ -178,10 +223,11 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      * bonus problem, but shouldn't be too hard if you really understand heaps
      * and think about the algorithm before you start to code.
      */
+    //改变某个元素的优先级
     @Override
     public void changePriority(T item, double priority) {
         /* TODO: Your code here! */
-        return;
+
     }
 
     /**
