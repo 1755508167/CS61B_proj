@@ -10,26 +10,45 @@ public class SimpleOomage implements Oomage {
     protected int blue;
 
     private static final double WIDTH = 0.01;
-    private static final boolean USE_PERFECT_HASH = false;
+    private static final boolean USE_PERFECT_HASH = true;
 
     @Override
     public boolean equals(Object o) {
         // TODO: Write this method.
-        return false;
+        //如果是同一个引用
+        if (o==this){
+            return true;
+        }
+        if (o==null){
+            return false;
+        }
+        //如果两个对象不是同一个类
+        if (o.getClass() != this.getClass()){
+            return false;
+        }
+        //进行类型转换
+        SimpleOomage that=(SimpleOomage) o;
+        if (this.green== that.green && this.red==that.red && this.blue==that.blue){
+            return true;
+        }else {return false;}
+
     }
 
-    /* Uncomment this method after you've written
-       equals and failed the testHashCodeAndEqualsConsistency
-       test.
+
     @Override
     public int hashCode() {
         if (!USE_PERFECT_HASH) {
             return red + green + blue;
         } else {
             // TODO: Write a perfect hash function for Simple Oomages.
-            return 0;
+            // 将每个颜色值除以5后映射成0~50的整数
+            int r = red / 5;
+            int g = green / 5;
+            int b = blue / 5;
+            // 使用类似三位进制的编码方式，避免碰撞
+            return r * 51 * 51 + g * 51 + b;
         }
-    }*/
+    }
 
     public SimpleOomage(int r, int g, int b) {
         if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255) {
