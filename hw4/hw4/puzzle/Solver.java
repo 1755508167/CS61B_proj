@@ -48,11 +48,11 @@ public class Solver {
             visited.add(current.world);
 
             for (WorldState neighbor : current.world.neighbors()) {
-                if (current.preNode != null && neighbor.equals(current.preNode.world)){
+                if (current.preNode != null && neighbor.equals(current.preNode.world)) {
                     continue;//避免往回走
                 }
-                if (!visited.contains(neighbor)){
-                    minPQ.insert(new SearchNode(neighbor, current.number+1,current));
+                if (!visited.contains(neighbor)) {
+                    minPQ.insert(new SearchNode(neighbor, current.number + 1, current));
                 }
             }
 
@@ -66,11 +66,11 @@ public class Solver {
 
     //返回一个从初始状态到目标状态的worldstate序列
     public Iterable<WorldState> solution() {
-        LinkedList<WorldState> path=new LinkedList<>();
-        SearchNode current=finalNode;
-        while (current!=null){
+        LinkedList<WorldState> path = new LinkedList<>();
+        SearchNode current = finalNode;
+        while (current != null) {
             path.addFirst(current.world);
-            current=current.preNode;
+            current = current.preNode;
         }
         return path;
     }
