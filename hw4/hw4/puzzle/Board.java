@@ -1,14 +1,15 @@
 package hw4.puzzle;
 
 public class Board {
+    //创建一个N乘N的拼图板
     public Board(int[][] tiles) {
 
     }
-
+    //返回位于(i,j)的tile
     public int tileAt(int i, int j) {
         return 0;
     }
-
+    //返回拼图的大小，即N乘N
     public int size() {
         return 0;
     }
@@ -30,6 +31,9 @@ public class Board {
     }
 
     public boolean equals(Object y) {
+        return false;
+    }
+    public boolean isGoal(){
         return false;
     }
 
