@@ -6,8 +6,8 @@ import java.util.Set;
 
 public class Board implements WorldState {
     //定义一个拼图板
-    int[][] titles;
-    int N;
+    private  int[][] titles;
+    private final int N;
 
     //创建一个N乘N的拼图板
     public Board(int[][] tiles) {
