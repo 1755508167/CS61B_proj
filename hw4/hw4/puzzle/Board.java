@@ -15,11 +15,8 @@ public class Board implements WorldState {
         int rows = tiles.length;
         this.N = rows;
         this.titles=new int[N][N];
-        for (int i =0;i<N;i++){
-            for (int j =0;j<N;j++){
-                this.titles[i][j]=tiles[i][j];
-            }
-        }
+        this.titles=deepCopy(tiles);
+
         //判断数字是否都在正确的范围内
         for (int[] row : tiles) {
             for (int tile : row) {
