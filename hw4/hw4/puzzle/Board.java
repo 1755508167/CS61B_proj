@@ -11,15 +11,19 @@ public class Board implements WorldState {
 
     //创建一个N乘N的拼图板
     public Board(int[][] tiles) {
-        this.titles = tiles;
         //N×N
         int rows = tiles.length;
         this.N = rows;
+        this.titles=new int[N][N];
+        for (int i =0;i<N;i++){
+            for (int j =0;j<N;j++){
+                this.titles[i][j]=tiles[i][j];
+            }
+        }
         //判断数字是否都在正确的范围内
         for (int[] row : tiles) {
             for (int tile : row) {
-                if (tile < (rows - 1) && tile > 0) {
-                } else {
+                if (tile > (N*N-1) || tile < 0) {
                     throw new UnsupportedOperationException("数不在正确的范围内");
                 }
             }
@@ -33,7 +37,7 @@ public class Board implements WorldState {
 
     //返回拼图的大小，即N乘N
     public int size() {
-        return N * N;
+        return N;
     }
 
     //返回当前拼图状态的所有邻接状态
@@ -91,7 +95,7 @@ public class Board implements WorldState {
     //计算tiles中某个位置的数应为多少，将坐标转换为index
     private int hammingHelper(int i, int j) {
         int index = i * N + j + 1;
-        return index + 1;
+        return index;
     }
 
     //计算曼哈顿距离
@@ -128,19 +132,14 @@ public class Board implements WorldState {
 
     //计算一个数在tiles中的坐标
     private int[] indexToLocation(int number) {
-        int i = 0;
-        int j = 0;
-        int[] location = new int[2];
-        j = number % N;
-        i = (number - j) / N;
-        location[0] = i;
-        location[1] = j;
-        return location;
+        int i = (number - 1) / N;
+        int j = (number - 1) % N;
+        return new int[]{i, j};
     }
 
     @Override
     public int estimatedDistanceToGoal() {
-        return hamming();
+        return manhattan();
     }
 
     //判断两个拼图是否相等
