@@ -6,11 +6,10 @@ import java.util.Observable;
  * @author Josh Hug
  */
 public abstract class MazeExplorer extends Observable {
-    protected int[] distTo;
-    protected int[] edgeTo;
-    protected boolean[] marked;
+    protected int[] distTo;//从起点到各个位置的距离
+    protected int[] edgeTo;//路径信息，即每个点是通过哪个点走到的。记录路径上的前一个点
+    protected boolean[] marked;//用于标记哪些位置已被访问 —— 在迷宫中以蓝色显示这些位置。
     protected Maze maze;
-
 
     /**
      * Notify all Observers of a change.
