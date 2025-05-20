@@ -18,6 +18,7 @@ public class QuickSort {
     }
 
     /** Returns a random item from the given queue. */
+    //从指定的队列中返回一个随机的元素
     private static <Item extends Comparable> Item getRandomItem(Queue<Item> items) {
         int pivotIndex = (int) (Math.random() * items.size());
         Item pivot = null;
@@ -44,16 +45,65 @@ public class QuickSort {
      * @param greater   An empty Queue. When the function completes, this queue will contain
      *                  all of the items in unsorted that are greater than the given pivot.
      */
+    //接受一个未排序的队列，一个用于比较的基准元素，以及三个空队列
     private static <Item extends Comparable> void partition(
             Queue<Item> unsorted, Item pivot,
             Queue<Item> less, Queue<Item> equal, Queue<Item> greater) {
         // Your code here!
+        for (Item item : unsorted){
+            //item > pivot
+            if (item.compareTo(pivot)>0){
+                greater.enqueue(item);
+            } else if (item.compareTo(pivot)<0) {
+                less.enqueue(item);
+            }else {
+                equal.enqueue(item);
+            }
+        }
     }
 
     /** Returns a Queue that contains the given items sorted from least to greatest. */
     public static <Item extends Comparable> Queue<Item> quickSort(
             Queue<Item> items) {
         // Your code here!
-        return items;
+        //获取基准元素
+        if (items.size()==1 || items.size()==0){
+            return items;
+        }
+        Item pivot=getRandomItem(items);
+        Queue<Item> less=new Queue<>();
+        Queue<Item> greater=new Queue<>();
+        Queue<Item> equal=new Queue<>();
+        //调用partion
+        partition(items,pivot,less,equal,greater);
+        //递归调用
+        less=quickSort(less);
+        greater=quickSort(greater);
+
+        Queue<Item> temp=catenate(less,equal);
+        temp=catenate(temp,greater);
+
+        return temp;
+    }
+
+    public static void main(String[] args){
+        Queue<String> students = new Queue<String>();
+        students.enqueue("Alice");
+        students.enqueue("Vanessa");
+        students.enqueue("Ethan");
+        students.enqueue("Hank");
+        students.enqueue("Norland");
+        students.enqueue("Guass");
+
+        Queue<String> less=new Queue<>();
+        Queue<String> greater=new Queue<>();
+        Queue<String> equal=new Queue<>();
+
+        //partition(students,"Hank",less,equal,greater);
+
+        //System.out.println(less.toString());
+        //System.out.println(greater.toString());
+        Queue<String> result=quickSort(students);
+        System.out.println(result.toString());
     }
 }
