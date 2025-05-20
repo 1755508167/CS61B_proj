@@ -2,7 +2,6 @@
  * Class with 2 ways of doing Counting sort, one naive way and one "better" way
  *
  * @author Akhil Batra, Alexander Hwang
- *
  **/
 public class CountingSort {
     /**
@@ -14,13 +13,14 @@ public class CountingSort {
      * @return the sorted array
      */
     public static int[] naiveCountingSort(int[] arr) {
-        // find max
+        // find max,寻找arr中最大的数
         int max = Integer.MIN_VALUE;
         for (int i : arr) {
-            max = max > i ? max : i;
+            max = Math.max(max, i);
         }
 
         // gather all the counts for each value
+        //统计每个值的数量
         int[] counts = new int[max + 1];
         for (int i : arr) {
             counts[i]++;
@@ -28,6 +28,7 @@ public class CountingSort {
 
         // when we're dealing with ints, we can just put each value
         // count number of times into the new array
+        //遍历 counts ，将各元素填入原数组 nums
         int[] sorted = new int[arr.length];
         int k = 0;
         for (int i = 0; i < counts.length; i += 1) {
@@ -65,8 +66,53 @@ public class CountingSort {
      *
      * @param arr int array that will be sorted
      */
+    //这个方法可以处理复数
     public static int[] betterCountingSort(int[] arr) {
         // TODO make counting sort work with arrays containing negative numbers.
-        return null;
+        //找出最小的数
+        int min = arr[0];
+        for (int num : arr) {
+            if (num < min) {
+                min = num;
+            }
+        }
+        //对arr中的所有数进行平移，保证它们都是非负数
+        //使用只能处理非负数的计数排序之后再平移回去
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = arr[i] - min;
+        }
+        //平移之后再找最大的数
+        int max = 0;
+        for (int num : arr) {
+            max = Math.max(max, num);
+        }
+        int[] counts = new int[max + 1];
+        for (int num:arr){
+            counts[num]++;
+        }
+        //这是排序之后的数组
+        int[] sorted = new int[arr.length];
+        int k=0;
+        for (int i =0;i< counts.length;i++){
+            for (int j =0;j<counts[i];j++,k++){
+                sorted[k]=i;
+            }
+        }
+        for (int i =0;i<sorted.length;i++){
+            sorted[i]=sorted[i]+min;
+        }
+        System.out.println("max:" + max);
+        System.out.println("min:" + min);
+
+        return sorted;
+    }
+
+    public static void main(String[] args) {
+        int[] array = new int[]{-3,-1, 1, 4, 3, 7, 5};
+
+        int[] sorted=betterCountingSort(array);
+        for (int i : sorted){
+            System.out.println(i);
+        }
     }
 }
