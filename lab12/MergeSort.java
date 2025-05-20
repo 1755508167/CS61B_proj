@@ -65,16 +65,36 @@ public class MergeSort {
     private static <Item extends Comparable<Item>> Queue<Item> mergeSortedQueues(
             Queue<Item> q1, Queue<Item> q2) {
         // Your code here!
-        return null;
+        Queue<Item> result = new Queue<>();
+        while (!q1.isEmpty() || !q2.isEmpty()) {
+            Item item = getMin(q1, q2);
+            result.enqueue(item);
+        }
+        return result;
     }
 
     /**
      * Returns a Queue that contains the given items sorted from least to greatest.
      */
+    //最小的在头部，可以最先出列；最大的在尾部，最后出列
     public static <Item extends Comparable<Item>> Queue<Item> mergeSort(
             Queue<Item> items) {
-        // Your code here!
-        return items;
+        if (items == null || items.size() <=1){
+            return items;
+        }
+
+        //第一步：将每个元素放进一个单独的队列中
+        Queue<Queue<Item>> queueOfQueues=makeSingleItemQueues(items);
+
+        //第二步：两两合并,直到只剩一个队列
+        while (queueOfQueues.size() >1){
+            Queue<Item> q1=queueOfQueues.dequeue();
+            Queue<Item> q2=queueOfQueues.dequeue();
+            Queue<Item> merged=mergeSortedQueues(q1,q2);
+            queueOfQueues.enqueue(merged);
+        }
+
+        return queueOfQueues.dequeue();
     }
 
     public static void main(String[] args) {
@@ -83,7 +103,14 @@ public class MergeSort {
         students.enqueue("Vanessa");
         students.enqueue("Ethan");
         Queue<String> result = MergeSort.mergeSort(students);
-        System.out.println(result.toString());
-        System.out.println(makeSingleItemQueues(students).toString());
+        //System.out.println(result.toString());
+
+        Queue<String> students2 = new Queue<String>();
+        students2.enqueue("Hank");
+        students2.enqueue("Norland");
+        //System.out.println(makeSingleItemQueues(students).toString());
+        //System.out.println(mergeSortedQueues(students, students2).toString());
+
+        System.out.println(mergeSort(students).toString());
     }
 }
