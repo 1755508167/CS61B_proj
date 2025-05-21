@@ -71,7 +71,7 @@ public class RadixSort {
     }
 
     //获取一个字符串的第index位,最右侧是第0位
-    private static char digit(String string, int index,int maxLength) {
+    public static char digit(String string, int index,int maxLength) {
         int order=maxLength - index - 1;
         if (order < string.length() ){
             return string.charAt(order);
@@ -95,10 +95,11 @@ public class RadixSort {
     }
 
     public static void main(String[] args) {
+        //针对不等长的字符串数组，处理方法是对字符串进行右侧补零，对于下面这个数组，最长的字符串的长度是3,那么对"ad"补零就是"ad0"
         String[] strings = new String[]{"ab","abe", "cf", "ad", "da", "ce"};
         String[] result = sort(strings);
 
-        System.out.println(RadixSort.digit("abc", 0,3));
+        System.out.println(RadixSort.digit("ab", 0,3));
         int i = (int) "Apple".charAt(0);
         char a = (char) 97;
         //System.out.println(i);
