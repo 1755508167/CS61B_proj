@@ -27,7 +27,7 @@ public class RadixSort {
         }
         String[] result=asciis.clone();
         for (int i=0;i<maxLength;i++){
-            result=stableSortOnChar(result,i);
+            result=stableSortOnChar(result,i,maxLength);
         }
         return result;
     }
@@ -46,13 +46,13 @@ public class RadixSort {
     }
 
     //计数排序，按照某一个字符进行排序
-    private static String[] stableSortOnChar(String[] strings, int index) {
+    private static String[] stableSortOnChar(String[] strings, int index,int maxLength) {
         int[] counts = new int[256];
         String[] aux=new String[strings.length];// 辅助数组，用于存放排好序的字符串
         //统计各个字母出现的次数
         for (String string : strings) {
             //将字符转换为数字
-            int number = (int) digit(string,index);
+            int number = (int) digit(string,index,maxLength);
             counts[number]++;
         }
         //构建起始位置数组
@@ -63,7 +63,7 @@ public class RadixSort {
 
         //将字符串按字符放入正确位置
         for (String string:strings){
-            int c=(int) digit(string,index);
+            int c=(int) digit(string,index,maxLength);
             aux[starts[c]]=string;// 根据起始位置放入字符串
             starts[c]++;//起始位置后移，确保下个相同字符放在下一个位置
         }
@@ -71,12 +71,13 @@ public class RadixSort {
     }
 
     //获取一个字符串的第index位,最右侧是第0位
-    private static char digit(String string, int index) {
-        int order=string.length() - index - 1;
-        if (order < 0 ){
+    private static char digit(String string, int index,int maxLength) {
+        int order=maxLength - index - 1;
+        if (order < string.length() ){
+            return string.charAt(order);
+        }else {
             return 0;
         }
-        return string.charAt(order);
     }
 
     /**
@@ -97,7 +98,7 @@ public class RadixSort {
         String[] strings = new String[]{"ab","abe", "cf", "ad", "da", "ce"};
         String[] result = sort(strings);
 
-        System.out.println(RadixSort.digit("abc", 0));
+        System.out.println(RadixSort.digit("abc", 0,3));
         int i = (int) "Apple".charAt(0);
         char a = (char) 97;
         //System.out.println(i);
