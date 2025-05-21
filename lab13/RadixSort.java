@@ -25,13 +25,10 @@ public class RadixSort {
         for (String s : asciis) {
             maxLength = Math.max(maxLength, s.length());
         }
-
-        String[] result=new String[asciis.length];
-        result=asciis.clone();
+        String[] result=asciis.clone();
         for (int i=0;i<maxLength;i++){
             result=stableSortOnChar(result,i);
         }
-
         return result;
     }
 
