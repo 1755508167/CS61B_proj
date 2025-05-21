@@ -20,10 +20,15 @@ public class RadixSort {
     //这个方法是非破坏性的
     public static String[] sort(String[] asciis) {
         // TODO: Implement LSD Sort
-        int length=asciis[0].length();
+        //最长字符串的长度
+        int maxLength=0;
+        for (String s : asciis) {
+            maxLength = Math.max(maxLength, s.length());
+        }
+
         String[] result=new String[asciis.length];
         result=asciis.clone();
-        for (int i=0;i<length;i++){
+        for (int i=0;i<maxLength;i++){
             result=stableSortOnChar(result,i);
         }
 
@@ -72,8 +77,12 @@ public class RadixSort {
     }
 
     //获取一个字符串的第index位,最右侧是第0位
-    private static Character digit(String string, int index) {
-        return string.charAt(string.length() - index - 1);
+    private static char digit(String string, int index) {
+        int order=string.length() - index - 1;
+        if (order < 0 ){
+            return 0;
+        }
+        return string.charAt(order);
     }
 
     /**
@@ -91,7 +100,7 @@ public class RadixSort {
     }
 
     public static void main(String[] args) {
-        String[] strings = new String[]{"ab", "cf", "ad", "da", "ce"};
+        String[] strings = new String[]{"ab","abe", "cf", "ad", "da", "ce"};
         String[] result = sort(strings);
 
         System.out.println(RadixSort.digit("abc", 0));
