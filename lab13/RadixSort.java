@@ -70,10 +70,7 @@ public class RadixSort {
             aux[starts[c]]=string;// 根据起始位置放入字符串
             starts[c]++;//起始位置后移，确保下个相同字符放在下一个位置
         }
-
         return aux;
-
-
     }
 
     //获取一个字符串的第index位,最右侧是第0位

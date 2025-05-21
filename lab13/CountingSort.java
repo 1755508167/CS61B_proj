@@ -70,7 +70,7 @@ public class CountingSort {
     public static int[] betterCountingSort(int[] arr) {
         // TODO make counting sort work with arrays containing negative numbers.
         //找出最小的数
-        if (arr==null || arr.length==0){
+        if (arr.length==0){
             return new int[0];
         }
         int min = arr[0];
