@@ -78,16 +78,17 @@ public class CountingSort {
         }
         //对arr中的所有数进行平移，保证它们都是非负数
         //使用只能处理非负数的计数排序之后再平移回去
+        int[] shiftarr=new int[arr.length];
         for (int i = 0; i < arr.length; i++) {
-            arr[i] = arr[i] - min;
+            shiftarr[i] = arr[i] - min;
         }
         //平移之后再找最大的数
         int max = 0;
-        for (int num : arr) {
+        for (int num : shiftarr) {
             max = Math.max(max, num);
         }
         int[] counts = new int[max + 1];
-        for (int num:arr){
+        for (int num:shiftarr){
             counts[num]++;
         }
         //这是排序之后的数组
@@ -98,11 +99,12 @@ public class CountingSort {
                 sorted[k]=i;
             }
         }
+        //排序完成之后平移回去
         for (int i =0;i<sorted.length;i++){
             sorted[i]=sorted[i]+min;
         }
-        System.out.println("max:" + max);
-        System.out.println("min:" + min);
+        //System.out.println("max:" + max);
+        //System.out.println("min:" + min);
 
         return sorted;
     }
