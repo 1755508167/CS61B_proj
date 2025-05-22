@@ -11,15 +11,17 @@
 
 import edu.princeton.cs.algs4.Picture;
 import edu.princeton.cs.algs4.StdOut;
-
+//打印出输入的图像的每个像素的能量计算
 public class PrintEnergy {
 
     public static void main(String[] args) {
-        Picture picture = new Picture(args[0]);
+        //创建一个Picture
+        Picture picture=new Picture("images/4x6.png");
+        //Picture picture = new Picture(args[0]);
         StdOut.printf("%d-by-%d image\n", picture.width(), picture.height());
         
         SeamCarver sc = new SeamCarver(picture);
-        
+
         StdOut.printf("Printing energy calculated for each pixel.\n");        
 
         for (int row = 0; row < sc.height(); row++) {
