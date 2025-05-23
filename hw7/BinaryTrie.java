@@ -6,7 +6,7 @@ import java.util.PriorityQueue;
 public class BinaryTrie implements Serializable {
     Node root;
     //定义一个节点类，作为霍夫曼树中的节点
-    private class Node implements Comparable<Node>{
+    private class Node implements Comparable<Node>,Serializable{
         char ch;//储存的字符
         int freq;//这个字符的频率
         Node left;//左子节点
@@ -44,6 +44,7 @@ public class BinaryTrie implements Serializable {
         //创建一个优先队列，按照Node的freq的大小排序，小的在最前面
         PriorityQueue<Node> queue=new PriorityQueue<>();
         //对map中的每一个字符生成一个节点并放入队列中
+        //一个entry包含一对键值对
         for (Map.Entry<Character,Integer> entry:frequencyTable.entrySet()){
             queue.add(new Node(entry.getKey(), entry.getValue()));
         }
