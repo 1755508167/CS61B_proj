@@ -10,7 +10,8 @@ import java.util.List;
  */
 public class HuffmanDecoder {
     public static void main(String[] args) {
-        String fileName = "watermelonsugar.txt.huf";
+        //String fileName = "watermelonsugar.txt.huf";
+        String fileName=args[0];
         ObjectReader or = new ObjectReader(fileName);
         //读取霍夫曼树
         Object trie0 = or.readObject();

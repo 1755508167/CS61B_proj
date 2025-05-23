@@ -35,7 +35,8 @@ public class HuffmanEncoder {
     }
     //main函数接收args[0]作为参数，对其进行霍夫曼编码，然后把编码的结果写入文件名为args[0]+".huf"
     public static void main(String[] args) {
-        String fileName="watermelonsugar.txt";
+        //String fileName="watermelonsugar.txt";
+        String fileName=args[0];
         //读取文件，得到一个字符数组
         char[] ch= FileUtils.readFile(fileName);
         //统计此数组的字符数量，返回一个map
