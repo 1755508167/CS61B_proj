@@ -17,11 +17,9 @@ public class Boggle {
     public Boggle(String boardPath) {
         In in = new In(boardPath);
         String[] strings = in.readAllLines();
-        int height=strings.length;//行数
-        int width=strings[0].toCharArray().length;//列数
         //System.out.println(width+","+height);
-        this.width=width;
-        this.height=height;
+        this.width=strings[0].length();
+        this.height=strings.length;//行数;
         //对board进行初始化
         board=new char[height][width];
         visited=new boolean[height][width];
@@ -82,6 +80,7 @@ public class Boggle {
                 return b.length() - a.length(); // 长度降序
             return a.compareTo(b);              // 字典升序
         });
+        System.out.println("sorted.length:"+boggle.result.size());
 
         return sorted.subList(0, Math.min(k, sorted.size()));
 
@@ -102,7 +101,7 @@ public class Boggle {
             return;
         }
         //判断是不是有效单词
-        if (trie.search(word)){
+        if (trie.search(word) && word.length() >= 3){
             result.add(word);
         }
 
