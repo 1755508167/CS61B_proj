@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import edu.princeton.cs.algs4.In;
 
@@ -26,9 +23,8 @@ public class Boggle {
 
         //把字符填进二维数组
         for (int i = 0; i < height; i++) {
-            char[] chars=strings[i].toCharArray();
             for (int j =0;j< width;j++) {
-                board[i][j]=chars[j];
+                board[i][j]=strings[i].charAt(j);
             }
         }
         /*
@@ -64,7 +60,7 @@ public class Boggle {
         Trie trie = new Trie();
         //往前缀树中插入单词
         for (String word : strings) {
-            trie.insert(word);
+            trie.insert(word.toLowerCase());
         }
         Boggle boggle=new Boggle(boardFilePath);
 
@@ -94,7 +90,7 @@ public class Boggle {
         char ch=board[i][j];
         prefix.append(ch);
         //转成字符串
-        String word= prefix.toString();
+        String word= prefix.toString().toLowerCase();
         //如果不是合法前缀
         if (!trie.startsWith(word)){
             prefix.deleteCharAt(prefix.length()-1);//删除刚才添加进去的字符
