@@ -36,7 +36,6 @@ public class Boggle {
         }
 
          */
-
     }
 
     /**
@@ -62,6 +61,7 @@ public class Boggle {
         for (String word : strings) {
             trie.insert(word.toLowerCase());
         }
+        //System.out.println(trie.search("hi"));
         Boggle boggle=new Boggle(boardFilePath);
 
         for (int i=0;i< boggle.height;i++){
@@ -76,7 +76,6 @@ public class Boggle {
                 return b.length() - a.length(); // 长度降序
             return a.compareTo(b);              // 字典升序
         });
-        System.out.println("sorted.length:"+boggle.result.size());
 
         return sorted.subList(0, Math.min(k, sorted.size()));
 
@@ -84,7 +83,8 @@ public class Boggle {
     //深度优先搜索
     private void dfs(int i,int j,Trie trie,StringBuilder prefix){
         //判断是否坐标越界和是否被访问
-        if (i < 0 || i >= height || j<0 || j < width || visited[i][j]){
+        if (i < 0 || i >= height || j<0 || j >= width || visited[i][j]){
+            //System.out.println("return 1");
             return;
         }
         char ch=board[i][j];
@@ -94,15 +94,18 @@ public class Boggle {
         //如果不是合法前缀
         if (!trie.startsWith(word)){
             prefix.deleteCharAt(prefix.length()-1);//删除刚才添加进去的字符
+            //System.out.println("return 2");
             return;
         }
         //判断是不是有效单词
         if (trie.search(word) && word.length() >= 3){
             result.add(word);
+            //System.out.println("add word:"+word);
         }
 
         //把当前字符标记为已访问
         visited[i][j]=true;
+        //System.out.println("标记:"+i+" "+j);
         //朝八个方向递归
         for (int dx=-1;dx<=1;dx++){
             for (int dy=-1;dy<=1;dy++){
@@ -117,7 +120,7 @@ public class Boggle {
     }
 
     public static void main(String[] args) {
-        List<String> result=Boggle.solve(3,"exampleBoard.txt");
+        List<String> result=Boggle.solve(7,"exampleBoard.txt");
         System.out.println(result.toString());
     }
 }
