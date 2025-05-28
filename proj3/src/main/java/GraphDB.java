@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Graph for storing all of the intersection (vertex) and road (edge) information.
@@ -18,16 +18,120 @@ import java.util.ArrayList;
  * @author Alan Yao, Josh Hug
  */
 public class GraphDB {
-    /** Your instance variables for storing the graph. You should consider
-     * creating helper classes, e.g. Node, Edge, etc. */
+    /**
+     * Your instance variables for storing the graph. You should consider
+     * creating helper classes, e.g. Node, Edge, etc.
+     */
+    //存储节点
+    Map<Long,Node> nodes;
+    //存储边
+    Map<Long,Edge> edges;
 
+    //定义一个节点类
+    static class Node {
+        private long id;
+        private double lon, lat;
+        //用来存储Node的标签
+        private Map<String, String> tags;
+        //用来存储与此节点相邻的节点
+        private Set<Long> adjacentNode;
+
+        public Node(long id, double lon, double lat) {
+            this.id = id;
+            this.lon = lon;
+            this.lat = lat;
+            tags = new HashMap<>();//初始化
+            adjacentNode=new HashSet<>();
+
+        }
+        public long getId(){
+            return id;
+        }
+        public double getLon(){
+            return lon;
+        }
+        public double getLat(){
+            return lat;
+        }
+        //添加标签
+        public void addTag(String k,String v){
+            tags.put(k,v);
+        }
+        //添加相邻节点
+        public void addAdjacentNode(long id){
+            adjacentNode.add(id);
+        }
+
+        //返回相邻节点的数量
+        public int getNumAdjNode(){
+            return adjacentNode.size();
+        }
+        //返回相邻的节点
+        public Set<Long> getAdjNode(){
+            return adjacentNode;
+        }
+    }
+    //定义一个边类
+    static class Edge{
+        private long id;
+        //此列表用来存储这个边上的节点，只存储节点的id
+        private List<Long> refNode;
+        private Map<String,String> tags;
+
+        public Edge(long id){
+            this.id=id;
+            refNode=new ArrayList<>();
+            tags=new HashMap<>();
+        }
+        //添加这条边上的节点
+        public void addRefNode(long id){
+            refNode.add(id);
+        }
+        //添加tag
+        public void addTag(String k,String v){
+            tags.put(k,v);
+        }
+        //获取这条edge上的所有节点
+        public List<Long> getRefNode(){
+            return refNode;
+        }
+
+    }
+
+    //添加节点
+    public void addNode(Node node){
+        nodes.put(node.getId(),node);
+    }
+    //删除节点
+    public void deleteNode(Node node){
+        nodes.remove(node.getId(),node);
+    }
+
+    //添加edge
+    public void addEdge(long id){
+        Edge edge=new Edge(id);
+        edges.put(id,edge);
+    }
+    //连接两个节点
+    public void connectTwoNode(long id1,long id2){
+        Node node1=nodes.get(id1);
+        Node node2=nodes.get(id2);
+        if (node1 != null && node2 != null) {
+        node1.addAdjacentNode(id2);
+        node2.addAdjacentNode(id1);
+        }
+    }
     /**
      * Example constructor shows how to create and start an XML parser.
      * You do not need to modify this constructor, but you're welcome to do so.
+     *
      * @param dbPath Path to the XML file to be parsed.
      */
     public GraphDB(String dbPath) {
         try {
+            nodes=new HashMap<>();
+            edges=new HashMap<>();
+
             File inputFile = new File(dbPath);
             FileInputStream inputStream = new FileInputStream(inputFile);
             // GZIPInputStream stream = new GZIPInputStream(inputStream);
@@ -44,6 +148,7 @@ public class GraphDB {
 
     /**
      * Helper to process strings into their "cleaned" form, ignoring punctuation and capitalization.
+     *
      * @param s Input string.
      * @return Cleaned string.
      */
@@ -52,36 +157,60 @@ public class GraphDB {
     }
 
     /**
-     *  Remove nodes with no connections from the graph.
-     *  While this does not guarantee that any two nodes in the remaining graph are connected,
-     *  we can reasonably assume this since typically roads are connected.
+     * Remove nodes with no connections from the graph.
+     * While this does not guarantee that any two nodes in the remaining graph are connected,
+     * we can reasonably assume this since typically roads are connected.
      */
     private void clean() {
         // TODO: Your code here.
+        /*
+        for (Long id: nodes.keySet()){
+            Node node=nodes.get(id);
+            if (node.getAdjNode().size()==0){
+                nodes.remove(id,node);
+            }
+        }
+        这个逻辑不对，在遍历的时候修改了nodes
+         */
+        List<Long> keysToRemove=new ArrayList<>();
+        Set<Long> setId=nodes.keySet();
+        for (Long id: setId){
+            Node node=nodes.get(id);
+            if (node.getAdjNode().size()==0){
+                keysToRemove.add(node.getId());
+            }
+        }
+
+        for (int i=0;i< keysToRemove.size();i++){
+            nodes.remove(keysToRemove.get(i));
+        }
     }
 
     /**
      * Returns an iterable of all vertex IDs in the graph.
+     *
      * @return An iterable of id's of all vertices in the graph.
      */
     Iterable<Long> vertices() {
         //YOUR CODE HERE, this currently returns only an empty list.
-        return new ArrayList<Long>();
+        return new ArrayList<>(nodes.keySet());
     }
 
     /**
      * Returns ids of all vertices adjacent to v.
+     *
      * @param v The id of the vertex we are looking adjacent to.
      * @return An iterable of the ids of the neighbors of v.
      */
     Iterable<Long> adjacent(long v) {
-        return null;
+        return nodes.get(v).getAdjNode();
     }
 
     /**
      * Returns the great-circle distance between vertices v and w in miles.
      * Assumes the lon/lat methods are implemented properly.
      * <a href="https://www.movable-type.co.uk/scripts/latlong.html">Source</a>.
+     *
      * @param v The id of the first vertex.
      * @param w The id of the second vertex.
      * @return The great-circle distance between the two locations from the graph.
@@ -109,6 +238,7 @@ public class GraphDB {
      * end point.
      * Assumes the lon/lat methods are implemented properly.
      * <a href="https://www.movable-type.co.uk/scripts/latlong.html">Source</a>.
+     *
      * @param v The id of the first vertex.
      * @param w The id of the second vertex.
      * @return The initial bearing between the vertices.
@@ -131,29 +261,41 @@ public class GraphDB {
 
     /**
      * Returns the vertex closest to the given longitude and latitude.
+     *
      * @param lon The target longitude.
      * @param lat The target latitude.
      * @return The id of the node in the graph closest to the target.
      */
     long closest(double lon, double lat) {
-        return 0;
+        double minDistance = Double.MAX_VALUE;
+        long closestId = -1;
+        for (Node node : nodes.values()) {
+            double dist = distance(lon, lat, node.getLon(), node.getLat());
+            if (dist < minDistance) {
+                minDistance = dist;
+                closestId = node.getId();
+            }
+        }
+        return closestId;
     }
 
     /**
      * Gets the longitude of a vertex.
+     *
      * @param v The id of the vertex.
      * @return The longitude of the vertex.
      */
     double lon(long v) {
-        return 0;
+        return nodes.get(v).getLon();
     }
 
     /**
      * Gets the latitude of a vertex.
+     *
      * @param v The id of the vertex.
      * @return The latitude of the vertex.
      */
     double lat(long v) {
-        return 0;
+        return nodes.get(v).getLat();
     }
 }
